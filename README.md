@@ -1,3 +1,3 @@
 # FinalProject-Stock
  NU-FinalProject 
-In this final project our group will attempt to predict future stock prices using snow flake, pandas and api from reddit and new cycle.  
+In this final project our group will attempt to predict future stock prices sourcing data sources from various finance sights. with  pandas and api from reddit and new cycle, out goal is to illustrat the trend of how stocks fluctuate through out time and the factors that affect them.  
