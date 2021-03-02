@@ -1,74 +1,117 @@
-<!doctype html >
+<!doctype html>
 <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Final Push</title>
-        <link rel="stylesheet" href="skeleton.css">
-<link rel="stylesheet" href="skeleton.css">
-<div class="wrapper">
-    <ul>
-<li>home</li>
-<li>About</li>
-<li>Services
-            <ul>
-<li>Marketing</li>
-<li>Design
-                    <ul>
-<li>Web</li>
-<li>Graphics</li>
-<li>Interior</li>
-</ul>
-</li>
-<li>Branding</li>
-</ul>
-</li>
-<li>Portfolio</li>
-<li>Contact</li>
-</ul>
-</div>
+    <!-- Bring in our bootstrap stylesheet -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="skeleton.css">
+    <link rel="stylesheet" href="skeleton.css">
+    <div class="wrapper">
+        <ul>
+            <li>home</li>
+            <li>About</li>
+            <li>Services
+                <ul>
+                    <li>Marketing</li>
+                    <li>Design
+                        <ul>
+                            <li>Web</li>
+                            <li>Graphics</li>
+                            <li>Interior</li>
+                        </ul>
+                    </li>
+                    <li>Branding</li>
+                </ul>
+            </li>
+            <li>Portfolio</li>
+            <li>Contact</li>
+        </ul>
+    </div>
 
 </head>
-<body> 
-                    
-<div>
-   The user input,<var> date </var>, shouldnt exceed 235
-   The user input,<var> ticker </var>, shouldnt exceed 235 
-   The user input,<var> price </var>, shouldnt exceed 235 
-   The user input,<var> predicted </var>, shouldnt exceed 235 
-</div>
-    <table>
-        <tr>
-            <th>name 1</th>
-            <th>name 2</th>
-            <th>name 3</th>
-            <th>name 4</th>
-            <th>name 5</th>
-            <th>name 6</th>
-            <th>name 7</th>
-        </tr>
-        <tr>
-            <th>name a</th>
-            <th>name ab</th>
-            <th>name abc</th>
-            <th>name abcd</th>
-            <th>name abcde</th>
-            <th>name abcdef</th>
-            <th>name abcdefg</th>
-        </tr>
-        <tr>
-            <td>name 1</td>
-            <td>name 12</td>
-            <td>name 123</td>
-            <td>name 1234</td>
-            <td>name 12345</td>
-            <td>name 123456</td>
-            <td>name 1234567</td>
-        </tr>
-    </table>
-            <div class="wrapper"> </div>
-                <img src="C:\Users\12172\OneDrive\Pictures\1987_AudiSport_QuattroS1PikesPeak3.jpg" alt="pikes peak">
-                <img src="C:\Users\12172\OneDrive\Pictures\1986-Peugeot-T16-E1-Group-B-e1586902830215.jpg" alt="group b">
-                <img src="C:\Users\12172\OneDrive\Pictures\delta_s4_ftq-1109x740.jpg" alt="lancia delta">
+
+<body>
+    <div class="container">
+        <br>
+        <br>
+        <br>
+        <h1>template </h1>
+        <br>
+        <br>
+        <p1>The user input,<var> date </var>, shouldnt exceed 235 The user input,<var> ticker </var>, shouldnt exceed
+            235
+            The user input,<var> predicted </var>, shouldnt exceed 235</ The user input,<var> price </var>, shouldnt
+            exceed
+            235 </p1>
+
+        <table>
+            <br>
+            <tr>
+                <th>name 1</th>
+                <th>name 2</th>
+                <th>name 3</th>
+                <th>name 4</th>
+                <th>name 5</th>
+                <th>name 6</th>
+                <th>name 7</th>
+            </tr>
+            <tr>
+                <th>name a</th>
+                <th>name ab</th>
+                <th>name abc</th>
+                <th>name abcd</th>
+                <th>name abcde</th>
+                <th>name abcdef</th>
+                <th>name abcdefg</th>
+            </tr>
+            <tr>
+                <td>name 1</td>
+                <td>name 12</td>
+                <td>name 123</td>
+                <td>name 1234</td>
+                <td>name 12345</td>
+                <td>name 123456</td>
+                <td>name 1234567</td>
+            </tr>
+        </table>
+        <!-- <div class="wrapper"> </div> -->
+        <div class="container">
+            <div class="row ">
+                <div class="col-md-6">
+                    <img src="C:\Users\12172\OneDrive\Pictures\1987_AudiSport_QuattroS1PikesPeak3.jpg" id='photoedit'
+                        alt="pikes peak">
+                </div>
+            </div>
+            <br>
+            <div class="row justify-content-end">
+                <div class="col-md-6">
+                    <img src="C:\Users\12172\OneDrive\Pictures\1986-Peugeot-T16-E1-Group-B-e1586902830215.jpg"
+                        id='photoedit' alt="group b">
+                </div>
+            </div>
+            <br>
+            <div class="row justify-content-end">
+                <div class="col-md-6">
+                    <img src="C:\Users\12172\OneDrive\Pictures\delta_s4_ftq-1109x740.jpg" id='photoedit'
+                        alt="lancia delta">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
