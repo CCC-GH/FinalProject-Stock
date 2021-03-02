@@ -34,7 +34,7 @@
     font-weight: bold;
     }
     .wrapper ul li:hover{
-    background: crimson; 
+    background: rgb(130, 20, 220); 
     }
     
     .wrapper ul ul{
@@ -52,3 +52,11 @@
         height:200px;
         width:200px;
     }
+    table {
+        border-collapse: separate;
+        border-spacing: 50px 0;
+      }
+      
+      td {
+        padding: 10px 0;
+      }
