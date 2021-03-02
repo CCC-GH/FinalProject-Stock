@@ -48,4 +48,7 @@
     top: 0;
     position: absolute;
     }
-    
+    #photoedit{
+        height:200px;
+        width:200px;
+    }
