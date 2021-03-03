@@ -1,10 +1,9 @@
 *{
     margin: 0;
     padding: 0;
-    }
-               body{
-    background-image: url(1.jpg);  
-    -webkit-background-size:cover;
+   
+    background-image{padding:20em;
+    background-image: url()
     background-size:cover;
     background-position: center center;
     height: 100vh;
@@ -49,8 +48,8 @@
     position: absolute;
     }
     #photoedit{
-        height:200px;
-        width:200px;
+        height:1000px;
+        width:1000px;
     }
     table {
         border-collapse: separate;
@@ -60,3 +59,11 @@
       td {
         padding: 10px 0;
       }
+      h3{color:green)
+       } 
+      h4{color:green)
+       } 
+      p{font font-family: ;Sans sans-serif;
+      font-style: italic;
+      color:white;
+    }
