@@ -1,19 +1,11 @@
-# -*- coding: utf-8 -*-
-'''
-Created on Thu Mar  4 22:32:42 2021
-@author: coffm
-'''
 import pandas as pd    
 import numpy as np
 import matplotlib.pyplot as plt 
 from pandas_datareader.data import DataReader
-from sklearn.metrics import mean_absolute_error
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
-import pprint
 import datetime
-from datetime import timedelta
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessDay
 
@@ -48,7 +40,7 @@ x = np.array(modelData.drop(['Predict'], 1))[:-futureDays]
 y = np.array(modelData['Predict'])[:-futureDays]
 #print(y)
 #
-#Split data 75% training, 25% testing
+# Split data 75% training, 25% testing
 xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.25)
 tree = DecisionTreeRegressor().fit(xtrain, ytrain)
 linear = LinearRegression().fit(xtrain, ytrain)
@@ -62,12 +54,12 @@ treePrediction = tree.predict(xfuture)
 linearPrediction = linear.predict(xfuture)
 #print('Linear Regression prediction =',linearPrediction)
 #
-# Plot Lindear Regression prediction
+# Plot Linear Regression prediction
 predictions = linearPrediction
 valid = modelData[x.shape[0]:]
 valid['Predict'] = predictions
 plt.figure(figsize=(10, 6))
-plt.title(f'{ticker} - Stock Price Prediction (Linear Regression Model)')
+plt.title(f'{ticker} - Stock Price Prediction - Linear Regression Model')
 plt.xlabel('Days')
 plt.ylabel('Close Price USD')
 plt.plot(modelData['Close'])
@@ -80,7 +72,7 @@ predictions = treePrediction
 valid = modelData[x.shape[0]:]
 valid['Predict'] = predictions
 plt.figure(figsize=(10, 6))
-plt.title(f'{ticker} - Stock Price Prediction (Decision Tree Regressor Model)')
+plt.title(f'{ticker} - Stock Price - Decision Tree Regressor Model')
 plt.xlabel('Days')
 plt.ylabel('Close Price USD')
 plt.plot(modelData['Close'])
@@ -93,12 +85,13 @@ combinedDF=df['Close'].to_frame()
 todaysDate = datetime.datetime.now().date()
 futureDays = 10
 us_bd = CustomBusinessDay(calendar=USFederalHolidayCalendar())
-index = pd.date_range(todaysDate, periods = futureDays, freq=us_bd)
+futureDates = pd.date_range(todaysDate, periods = futureDays, freq=us_bd)
 combinedDFcol =['Close','Predict','SM1','SM2','SM3','SM4'] 
-futureDF=pd.DataFrame(index=index, columns=combinedDFcol)
+futureDF=pd.DataFrame(index=futureDates, columns=combinedDFcol)
 combinedDF=combinedDF.append(futureDF, ignore_index = False)
+combinedDF.index.names = ['Date']
 print(combinedDF)
 #predictDF=predictDF.fillna(0)
 #
 # Write to CSV
-combinedDF.to_csv(f'{ticker}-CombinedDF_{beginDate}_{endDate}.csv')
+combinedDF.to_csv(f'.\output\{ticker}-CombinedDF_{beginDate}_{endDate}.csv')
