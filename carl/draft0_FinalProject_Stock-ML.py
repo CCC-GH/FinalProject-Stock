@@ -9,8 +9,8 @@ import datetime
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessDay
 
-beginDate ='2020-03-05'
-endDate ='2021-03-04'       
+beginDate ='2020-01-01'
+endDate = datetime.datetime.now().date()     
 #
 #df = pd.read_csv('XXXXXX.csv',index_col=0)
 # note: if using line above, loading from csv, comment out section below
@@ -27,7 +27,10 @@ while True:
 #
 # Use Adj Close instead of Close
 df['Close'] = df['Adj Close']
-df = df.drop('Adj Close',axis=1)
+df = df.drop('Adj Close', axis=1)
+df = df.drop('High', axis=1)
+df = df.drop('Low', axis=1)
+df = df.drop('Open', axis=1)
 
 # Future Days - number of days to predict
 modelData = df['Close'].to_frame()
@@ -81,14 +84,14 @@ plt.legend(['Original', 'Actual', 'Predicted'])
 plt.show()
 #
 # Create new DataFrame with future business days-closing price populated
-combinedDF=df['Close'].to_frame()
+#combinedDF=df['Close'].to_frame()
 todaysDate = datetime.datetime.now().date()
 futureDays = 10
 us_bd = CustomBusinessDay(calendar=USFederalHolidayCalendar())
 futureDates = pd.date_range(todaysDate, periods = futureDays, freq=us_bd)
 combinedDFcol =['Close','Predict','SM1','SM2','SM3','SM4'] 
 futureDF=pd.DataFrame(index=futureDates, columns=combinedDFcol)
-combinedDF=combinedDF.append(futureDF, ignore_index = False)
+combinedDF=df.append(futureDF, ignore_index = False)
 combinedDF.index.names = ['Date']
 print(combinedDF)
 #predictDF=predictDF.fillna(0)
