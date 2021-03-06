@@ -9,8 +9,8 @@ import datetime
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessDay
 
-beginDate ='2020-03-05'
-endDate ='2021-03-04'       
+beginDate ='2020-01-01'
+endDate = datetime.datetime.now().date()     
 #
 #df = pd.read_csv('XXXXXX.csv',index_col=0)
 # note: if using line above, loading from csv, comment out section below
