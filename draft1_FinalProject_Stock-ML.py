@@ -29,10 +29,7 @@ while True:
 #
 # Use Adj Close instead of Close
 df['Close'] = df['Adj Close']
-df = df.drop('Adj Close', axis=1)
-df = df.drop('High', axis=1)
-df = df.drop('Low', axis=1)
-df = df.drop('Open', axis=1)
+df = df.drop(columns=['Adj Close','High','Low','Open'], axis=1)
 modelData = df['Close'].to_frame()
 print(f'\n{modelData.describe()}\n')
 #
@@ -43,7 +40,7 @@ ten_rolling = modelData.rolling(window=10).mean()
 twenty_rolling = modelData.rolling(window=20).mean()
 fifty_rolling = modelData.rolling(window=50).mean()
 hundred_rolling = modelData.rolling(window=100).mean()
-# Plot everything by leveraging the very powerful matplotlib package
+# Plot rolling averages with matplotlib 
 plt.figure(figsize=(10, 6))
 plt.plot(modelData.index, modelData, label='Adj Closing')
 plt.title(f'{ticker} Stock Price - 5/10/20/50/100 Day Moving Avg')
@@ -56,6 +53,7 @@ plt.xlabel('Date')
 plt.ylabel('Closing Price USD')
 plt.legend()
 plt.show()
+#
 # Days - number of days to predict
 futureDays = 30
 modelData['Predict'] = modelData['Close'].shift(-futureDays)
@@ -123,8 +121,7 @@ futureDF=pd.DataFrame(index=futureDates, columns=combinedDFcol)
 combinedDF=df.append(futureDF, ignore_index = False)
 combinedDF.index.names = ['Date']
 currInfo=yf.Ticker(ticker).info
-#combinedDF['Predict'].loc[-futureDays:]=currInfo['bid']
-combinedDF['Predict'].loc[-futureDays:]=currInfo['ask']
+combinedDF['Predict'].loc[-futureDays:]=(currInfo['bid']+currInfo['ask'])/2
 print(combinedDF)
 #
 # Write to CSV
