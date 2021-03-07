@@ -10,7 +10,6 @@ import datetime
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessDay
 import pprint
-
 beginDate ='2020-01-01'
 endDate = datetime.datetime.now().date()     
 #
@@ -45,7 +44,6 @@ twenty_rolling = modelData.rolling(window=20).mean()
 fifty_rolling = modelData.rolling(window=50).mean()
 hundred_rolling = modelData.rolling(window=100).mean()
 # Plot everything by leveraging the very powerful matplotlib package
-#fig, ax = plt.subplots(figsize=(16,9))
 plt.figure(figsize=(10, 6))
 plt.plot(modelData.index, modelData, label='Adj Closing')
 plt.title(f'{ticker} Stock Price - 5/10/20/50/100 Day Moving Avg')
@@ -64,9 +62,7 @@ modelData['Predict'] = modelData['Close'].shift(-futureDays)
 modelData = modelData.dropna()
 print(modelData)
 x = np.array(modelData.drop(['Predict'], 1))[:-futureDays]
-#print(x)
 y = np.array(modelData['Predict'])[:-futureDays]
-#print(y)
 #
 # Split data 75% training, 25% testing
 xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.25)
@@ -100,10 +96,10 @@ plt.legend(['Original', 'Actual', 'Predicted'])
 plt.show()
 # Linear Regression Model
 rSqLinear=linear.score(x,y)
-print('coefficient of determination:', rSqLinear)
+print('\ncoefficient of determination:', rSqLinear)
 print('intercept:', linear.intercept_)
-print('slope: ', linear.coef_)#
-
+print('slope: ', linear.coef_)
+#
 # Plot Decision Tree prediction
 predictions = treePrediction
 valid = modelData[x.shape[0]:]
@@ -118,7 +114,6 @@ plt.legend(['Original', 'Actual', 'Predicted'])
 plt.show()
 #
 # Create new DataFrame with future business days-closing price populated
-#combinedDF=df['Close'].to_frame()
 todaysDate = datetime.datetime.now().date()
 futureDays = 10
 us_bd = CustomBusinessDay(calendar=USFederalHolidayCalendar())
@@ -136,7 +131,9 @@ print(combinedDF)
 #
 # Write to CSV
 combinedDF.to_csv(f'.\output\{ticker}-CombinedDF_{beginDate}_{endDate}.csv')
-# Stock Information (upper-right box)
+# 
+# Stock Information (upper-right box), 
+#infoDictionary={'longName':currInfo['symbol'],.....}
 currInfo=yf.Ticker(ticker).info
 pprint.pprint(currInfo)
 print('\nCurrent-Key Stock Information:\n')
