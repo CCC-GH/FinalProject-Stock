@@ -72,9 +72,9 @@ xfuture = modelData.drop(['Predict'], 1)[:-futureDays]
 xfuture = xfuture.tail(futureDays)
 xfuture = np.array(xfuture)
 linearResult = linear.score(xtrain, ytrain)
-print("Accuracy: %.3f%%" % (linearResult*100.0))
+print("Linear Accuracy: %.3f%%" % (linearResult*100.0))
 treeResult = tree.score(xtrain, ytrain)
-print("Accuracy: %.3f%%" % (treeResult*100.0))
+print("Tree Accuracy: %.3f%%" % (treeResult*100.0))
 #
 # Decision Tree and Linear Regression models
 treePrediction = tree.predict(xfuture)
@@ -120,14 +120,12 @@ us_bd = CustomBusinessDay(calendar=USFederalHolidayCalendar())
 futureDates = pd.date_range(todaysDate, periods = futureDays, freq=us_bd)
 combinedDFcol =['Close','Predict','SM1','SM2','SM3','SM4'] 
 futureDF=pd.DataFrame(index=futureDates, columns=combinedDFcol)
-#futureDF=futureDF['Predict']
-#futureDF['Predict']=futureDF['Predict'].apply(lambda x: linear.predict(x))
 combinedDF=df.append(futureDF, ignore_index = False)
 combinedDF.index.names = ['Date']
 currInfo=yf.Ticker(ticker).info
-combinedDF['Predict'].loc[-futureDays:]=currInfo['bid']
+#combinedDF['Predict'].loc[-futureDays:]=currInfo['bid']
+combinedDF['Predict'].loc[-futureDays:]=currInfo['ask']
 print(combinedDF)
-#predictDF=predictDF.fillna(0)
 #
 # Write to CSV
 combinedDF.to_csv(f'.\output\{ticker}-CombinedDF_{beginDate}_{endDate}.csv')
@@ -147,4 +145,3 @@ print(f"52wk High: {round(currInfo['fiftyTwoWeekHigh'],2)}")
 print(f"52wk Low: {round(currInfo['fiftyTwoWeekLow'],2)}")
 print(f"MorningStar Rating: {currInfo['morningStarOverallRating']}")
 print(f"Short Ratio: {currInfo['shortRatio']}")
-
