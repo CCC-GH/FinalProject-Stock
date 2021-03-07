@@ -98,7 +98,12 @@ plt.plot(modelData['Close'])
 plt.plot(valid[['Close', 'Predict']])
 plt.legend(['Original', 'Actual', 'Predicted'])
 plt.show()
-#
+# Linear Regression Model
+rSqLinear=linear.score(x,y)
+print('coefficient of determination:', rSqLinear)
+print('intercept:', linear.intercept_)
+print('slope: ', linear.coef_)#
+
 # Plot Decision Tree prediction
 predictions = treePrediction
 valid = modelData[x.shape[0]:]
@@ -145,9 +150,4 @@ print(f"52wk High: {round(currInfo['fiftyTwoWeekHigh'],2)}")
 print(f"52wk Low: {round(currInfo['fiftyTwoWeekLow'],2)}")
 print(f"MorningStar Rating: {currInfo['morningStarOverallRating']}")
 print(f"Short Ratio: {currInfo['shortRatio']}")
-#
-# Apply Linear Regression Model
-rSqLinear=linear.score(x,y)
-print('coefficient of determination:', rSqLinear)
-print('intercept:', linear.intercept_)
-print('slope: ', linear.coef_)
+
