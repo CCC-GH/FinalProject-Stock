@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Stock Predictor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/superhero/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <link rel="stylesheet" href="style_1.css">
+</head>
+
+<body>
+  <div class="wrapper">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="index.html">Stock Predictor
+            <!-- <img class="nav-ufo" src="static/images/ufo.svg"> -->
+          </a>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="row margin-top-50">
+        
+        <div id="search" class="col-md-6">
+          <aside class="filters">
+            <div class="panel panel-default">
+                <div class="panel-heading">Query Stocks</div>
+                <div class="panel-body">
+                  <form>
+                    <div class="form-group">
+                      <ul class="list-group" id="filters">
+                        <li class="filter list-group-item">
+                          <label for="ticker">Ticker Symbol</label>
+                          <input class="form-control" id="ticker-symbol" type="text" placeholder="GME">
+                        </li>
+                      </ul>
+                    </div>
+                    <button id="filter-btn" type="button" class="btn btn-default">Run Prediction</button>
+                  </form>
+                </div>
+            </div>
+          </aside>
+        
+          <div class="row margin-top-50">
+            <div id="table-area" class="">
+              
+              <table id="ticker-table" class="table table-striped">
+                <thead>
+                  <tr>
+                    <th class="table-head">Date</th>
+                    <th class="table-head">Volume</th>
+                    <th class="table-head">Close</th>
+                    <th class="table-head">Predict</th>
+                    <th class="table-head"># Posts</th>
+                    <th class="table-head">Average Score</th>
+                    <th class="table-head">Over 3000</th>
+                  </tr>
+                </thead>
+                <tbody id="ticker-table-body" align="center">
+                  <tr>
+                    <th>3/5/2020</th>
+                    <td>33,599,500</td>
+                    <td>3.96</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <th>12/8/2020</th>
+                    <td>16,120,200</td>
+                    <td>16.94</td>
+                    <td></td>
+                    <td>80</td>
+                    <td>1</td>
+                    <td>0</td>
+                  </tr>
+                </tbody>
+              </table>
+          
+          </div>
+
+
+        </div>
+
+      </div>
+
+      <div id="right-bar" class="col-md-5">
+              
+                <div id="stoc-info" class="panel panel-default">
+                  <div class="panel-heading">Stock Information</div>
+                  <div class="panel-body">
+
+                    <div id="stock-info-fields" class="panel-body">
+                     <p id="ethnicity-text">Company:</p>
+                     <p id="gender-text">Current Price (USD):</p>
+                     <p id="age-text">Open Price:</p>
+                     <p id="location-text">Average Volume:</p> 
+                     <p id="bb-text">Volume:</p>
+                     <p id="freq-text">52-Week High:</p>
+                     <p id="freq-text">52-Week Low:</p>
+                     <p id="freq-text">Analyst Rating:</p>
+                  </div>
+
+                  </div>
+                </div>
+
+                <div id="ml-info" class="panel panel-default">
+                  <div class="panel-heading">Machine Learning Predictions</div>
+                  <div class="panel-body">
+
+                    <div id="ml-info-fields" class="panel-body">
+                     <p id="ethnicity-text">Predicted Price:</p>
+                     <p id="gender-text">Reddit Messages:</p>
+                     <p id="age-text">Media Average Score:</p>
+
+                  </div>
+
+                  </div>
+                </div>
+        
+        </div>
+
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <!-- <script src="static/js/data.js"></script> -->
+  <script src="app_1.js"></script>
+</body>
+
+</html>
