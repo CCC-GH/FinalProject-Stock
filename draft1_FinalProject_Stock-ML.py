@@ -127,6 +127,7 @@ print(combinedDF)
 #
 # Write to CSV
 combinedDF.to_csv(f'.\output\{ticker}-CombinedDF_{beginDate}_{endDate}.csv')
+combinedDF.to_csv('.\output\combinedDF.csv')
 # 
 # Stock Information (upper-right box), 
 currInfo=yf.Ticker(ticker).info
