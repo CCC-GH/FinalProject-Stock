@@ -50,7 +50,7 @@ plt.plot(twenty_rolling.index, twenty_rolling, label='20 days rolling')
 plt.plot(fifty_rolling.index, fifty_rolling, label='50 days rolling')
 plt.plot(hundred_rolling.index, hundred_rolling, label='100 days rolling')
 plt.xlabel('Date')
-plt.ylabel('Price USD')
+plt.ylabel('Close Price USD')
 plt.legend()
 plt.show()
 #
