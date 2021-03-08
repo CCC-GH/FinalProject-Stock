@@ -10,7 +10,7 @@ import datetime
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessDay
 import pprint
-beginDate ='2020-01-01'
+beginDate ='2021-01-01'
 endDate = datetime.datetime.now().date()     
 #
 #df = pd.read_csv('XXXXXX.csv',index_col=0)
@@ -50,12 +50,12 @@ plt.plot(twenty_rolling.index, twenty_rolling, label='20 days rolling')
 plt.plot(fifty_rolling.index, fifty_rolling, label='50 days rolling')
 plt.plot(hundred_rolling.index, hundred_rolling, label='100 days rolling')
 plt.xlabel('Date')
-plt.ylabel('Closing Price USD')
+plt.ylabel('Price USD')
 plt.legend()
 plt.show()
 #
-# Days - number of days to predict
-futureDays = 30
+# Setup number of days to predict, shift dates
+futureDays = 10
 modelData['Predict'] = modelData['Close'].shift(-futureDays)
 modelData = modelData.dropna()
 print(modelData)
@@ -64,24 +64,21 @@ y = np.array(modelData['Predict'])[:-futureDays]
 #
 # Split data 75% training, 25% testing
 xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.25)
-tree = DecisionTreeRegressor().fit(xtrain, ytrain)
-linear = LinearRegression().fit(xtrain, ytrain)
 xfuture = modelData.drop(['Predict'], 1)[:-futureDays]
 xfuture = xfuture.tail(futureDays)
 xfuture = np.array(xfuture)
-linearResult = linear.score(xtrain, ytrain)
-print("Linear Accuracy: %.3f%%" % (linearResult*100.0))
-treeResult = tree.score(xtrain, ytrain)
-print("Tree Accuracy: %.3f%%" % (treeResult*100.0))
-#
+
 # Decision Tree and Linear Regression models
-treePrediction = tree.predict(xfuture)
 #print('Decision Tree prediction =',treePrediction)
-linearPrediction = linear.predict(xfuture)
 #print('Linear Regression prediction =',linearPrediction)
 #
 # Plot Linear Regression prediction
+linear = LinearRegression().fit(xtrain, ytrain)
+#linearResult = linear.score(xtrain, ytrain)
+#print("Linear Accuracy: %.3f%%" % (linearResult*100.0))
+linearPrediction = linear.predict(xfuture)
 predictions = linearPrediction
+#mean_absolute_error(ytest, linearPrediction)
 valid = modelData[x.shape[0]:]
 valid['Predict'] = predictions
 plt.figure(figsize=(10, 6))
@@ -99,6 +96,10 @@ print('intercept:', linear.intercept_)
 print('slope: ', linear.coef_)
 #
 # Plot Decision Tree prediction
+tree = DecisionTreeRegressor().fit(xtrain, ytrain)
+#treeResult = tree.score(xtrain, ytrain)
+#print("Tree Accuracy: %.3f%%" % (treeResult*100.0))
+treePrediction = tree.predict(xfuture)
 predictions = treePrediction
 valid = modelData[x.shape[0]:]
 valid['Predict'] = predictions
@@ -128,9 +129,20 @@ print(combinedDF)
 combinedDF.to_csv(f'.\output\{ticker}-CombinedDF_{beginDate}_{endDate}.csv')
 # 
 # Stock Information (upper-right box), 
-#infoDictionary={'longName':currInfo['symbol'],.....}
 currInfo=yf.Ticker(ticker).info
 pprint.pprint(currInfo)
+infoDict={
+    'longName: ':currInfo['symbol'],
+    'Current Ask/Bid: ': str(currInfo['ask'])+'/'+str(currInfo['bid']),
+    'Open Price: ': str(round(currInfo['open'],2)),
+    'High/Low Price: ': str(currInfo['dayHigh'])+'/'+str(currInfo['dayLow']),
+    'Avg Volume: ': str(currInfo['averageVolume']), 
+    'Volume: ': str(currInfo['volume']),
+    '52w High: ': str(round(currInfo['fiftyTwoWeekHigh'],2)),
+    '52w Low: ': str(round(currInfo['fiftyTwoWeekLow'],2)),
+    'MorningStar Rating: ':str(currInfo['morningStarOverallRating']),
+    'Short Ratio: ': str(currInfo['shortRatio'])
+    }                      
 print('\nCurrent-Key Stock Information:\n')
 print(f"Company: {currInfo['longName']} ({currInfo['symbol']})")
 print(f"Current Ask/Bid (USD): {currInfo['ask']}/{currInfo['bid']}")
