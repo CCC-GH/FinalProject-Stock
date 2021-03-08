@@ -72,13 +72,13 @@ Xfuture = Xfuture.tail(futureDays)
 Xfuture = np.array(Xfuture)
 #
 # AutoRegressive Integrated Moving Average ARIMA(history=list, order=(p,d,q))
-# Model (p-lag observations, d-degree of differencing, q-size of moving avg window)
+#   Note: (p-lag observations, d-degree of differencing, q-size of moving avg window)
 plt.figure(figsize=(10, 6))
 lag_plot(df['Close'], lag=3)
 plt.title(f'{ticker} Stock - Autocorrelation plot with lag=3')
 plt.show()
-#
-train_data, test_data = df[0:int(len(df)*0.7)], df[int(len(df)*0.7):]
+# Setup ARIMA training model
+train_data, test_data = df[0:int(len(df)*0.7)], df[int(len(df)*0.75):]
 training_data = train_data['Close'].values
 test_data = test_data['Close'].values
 history = [x for x in training_data]
@@ -94,8 +94,8 @@ for time_point in range(N_test_observations):
     history.append(true_test_value)
 MSE_error = mean_squared_error(test_data, model_predictions)
 print('Testing Mean Squared Error is {}'.format(MSE_error))
-#
-test_set_range = df[int(len(df)*0.7):].index
+# Plot AIMA prediction model results
+test_set_range = df[int(len(df)*0.75):].index
 plt.figure(figsize=(10, 6))
 plt.plot(test_set_range, test_data, label='Actual')
 plt.plot(test_set_range, model_predictions, linestyle='dashed', label='Predicted')
@@ -104,7 +104,7 @@ plt.xlabel('Date')
 plt.ylabel('Close Price USD')
 plt.legend()
 plt.show()
-# print summary of fit model
+# print summary of ARIMA fit model
 print(model_fit.summary())
 #
 # Linear Regression Model
