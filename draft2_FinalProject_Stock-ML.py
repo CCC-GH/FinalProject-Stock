@@ -1,6 +1,7 @@
 import pandas as pd    
 import numpy as np
 import matplotlib.pyplot as plt 
+from pandas.plotting import lag_plot
 from pandas_datareader.data import DataReader
 import yfinance as yf
 from sklearn.linear_model import LinearRegression
@@ -9,8 +10,10 @@ from sklearn.tree import DecisionTreeRegressor
 import datetime
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessDay
+from statsmodels.tsa.arima_model import ARIMA
+from sklearn.metrics import mean_squared_error
 import pprint
-beginDate ='2021-01-01'
+beginDate ='2020-01-01'
 endDate = datetime.datetime.now().date()     
 #
 #df = pd.read_csv('XXXXXX.csv',index_col=0)
@@ -54,58 +57,93 @@ plt.ylabel('Close Price USD')
 plt.legend()
 plt.show()
 #
-# Setup number of days to predict, shift dates
+# Setup number of days in training model; sample/shape(X,1)and Target(y) data
 futureDays = 10
-modelData['Predict'] = modelData['Close'].shift(-futureDays)
-modelData = modelData.dropna()
+modelData['Target'] = modelData['Close'].shift(-futureDays)
+#modelData = modelData.dropna()
 print(modelData)
-x = np.array(modelData.drop(['Predict'], 1))[:-futureDays]
-y = np.array(modelData['Predict'])[:-futureDays]
+X = np.array(modelData.drop(['Target'], 1))[:-futureDays]
+y = np.array(modelData['Target'])[:-futureDays]
 #
 # Split data 75% training, 25% testing
-xtrain, xtest, ytrain, ytest = train_test_split(x, y, test_size=0.25)
-xfuture = modelData.drop(['Predict'], 1)[:-futureDays]
-xfuture = xfuture.tail(futureDays)
-xfuture = np.array(xfuture)
-
-# Decision Tree and Linear Regression models
-#print('Decision Tree prediction =',treePrediction)
-#print('Linear Regression prediction =',linearPrediction)
+Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, test_size=0.25)
+Xfuture = modelData.drop(['Target'], 1)[:-futureDays]
+Xfuture = Xfuture.tail(futureDays)
+Xfuture = np.array(Xfuture)
 #
-# Plot Linear Regression prediction
-linear = LinearRegression().fit(xtrain, ytrain)
-#linearResult = linear.score(xtrain, ytrain)
-#print("Linear Accuracy: %.3f%%" % (linearResult*100.0))
-linearPrediction = linear.predict(xfuture)
+# AutoRegressive Integrated Moving Average ARIMA(history=list, order=(p,d,q))
+# Model (p-lag observations, d-degree of differencing, q-size of moving avg window)
+plt.figure(figsize=(10, 6))
+lag_plot(df['Close'], lag=3)
+plt.title(f'{ticker} Stock - Autocorrelation plot with lag=3')
+plt.show()
+#
+train_data, test_data = df[0:int(len(df)*0.7)], df[int(len(df)*0.7):]
+training_data = train_data['Close'].values
+test_data = test_data['Close'].values
+history = [x for x in training_data]
+model_predictions = []
+N_test_observations = len(test_data)
+for time_point in range(N_test_observations):
+    model = ARIMA(history, order=(4,1,0))
+    model_fit = model.fit(disp=0)
+    output = model_fit.forecast()
+    yhat = output[0]
+    model_predictions.append(yhat)
+    true_test_value = test_data[time_point]
+    history.append(true_test_value)
+MSE_error = mean_squared_error(test_data, model_predictions)
+print('Testing Mean Squared Error is {}'.format(MSE_error))
+#
+test_set_range = df[int(len(df)*0.7):].index
+plt.figure(figsize=(10, 6))
+plt.plot(test_set_range, test_data, label='Actual')
+plt.plot(test_set_range, model_predictions, linestyle='dashed', label='Predicted')
+plt.title(f'{ticker} Stock Price Prediction - ARIMA Model Perforance')
+plt.xlabel('Date')
+plt.ylabel('Close Price USD')
+plt.legend()
+plt.show()
+# print summary of fit model
+print(model_fit.summary())
+#
+# Linear Regression Model
+# Fit model with Linear Regression prediction model
+linear = LinearRegression().fit(Xtrain, ytrain)
+linearPrediction = linear.predict(Xfuture)
+linearResult = linear.score(Xtrain, ytrain)
+print("Linear Accuracy: %.3f%%" % (linearResult*100.0))
+print('Linear Regression prediction =',linearPrediction)
 predictions = linearPrediction
 #mean_absolute_error(ytest, linearPrediction)
-valid = modelData[x.shape[0]:]
-valid['Predict'] = predictions
+valid = modelData[X.shape[0]:]
+valid['Target'] = predictions
 plt.figure(figsize=(10, 6))
-plt.title(f'{ticker} Stock Price Prediction - Linear Regression Model')
-plt.xlabel('Days')
+plt.title(f'{ticker} Stock Price Prediction - Linear Regression Model Performance')
+plt.xlabel('Date')
 plt.ylabel('Close Price USD')
 plt.plot(modelData['Close'])
-plt.plot(valid[['Close', 'Predict']])
+plt.plot(valid[['Close', 'Target']])
 plt.legend(['Original', 'Actual', 'Predicted'])
 plt.show()
-# Linear Regression Model
-rSqLinear=linear.score(x,y)
+rSqLinear=linear.score(X,y)
 print('\ncoefficient of determination:', rSqLinear)
 print('intercept:', linear.intercept_)
 print('slope: ', linear.coef_)
 #
-# Plot Decision Tree prediction
-tree = DecisionTreeRegressor().fit(xtrain, ytrain)
-#treeResult = tree.score(xtrain, ytrain)
-#print("Tree Accuracy: %.3f%%" % (treeResult*100.0))
-treePrediction = tree.predict(xfuture)
+# Decision Tree Model
+# Fit model with Decision Tree prediction model
+tree = DecisionTreeRegressor().fit(Xtrain, ytrain)
+treePrediction = tree.predict(Xfuture)
+treeResult = tree.score(Xtrain, ytrain)
+print("Tree Accuracy: %.3f%%" % (treeResult*100.0))
+print('Decision Tree prediction =',treePrediction)
 predictions = treePrediction
-valid = modelData[x.shape[0]:]
+valid = modelData[X.shape[0]:]
 valid['Predict'] = predictions
 plt.figure(figsize=(10, 6))
-plt.title(f'{ticker} Stock Price - Decision Tree Regressor Model')
-plt.xlabel('Days')
+plt.title(f'{ticker} Stock Price Prediction - Decision Tree Regressor Model Performance')
+plt.xlabel('Date')
 plt.ylabel('Close Price USD')
 plt.plot(modelData['Close'])
 plt.plot(valid[['Close', 'Predict']])
@@ -119,10 +157,13 @@ us_bd = CustomBusinessDay(calendar=USFederalHolidayCalendar())
 futureDates = pd.date_range(todaysDate, periods = futureDays, freq=us_bd)
 combinedDFcol =['Close','Predict','SM1','SM2','SM3','SM4'] 
 futureDF=pd.DataFrame(index=futureDates, columns=combinedDFcol)
+futureDF['Predict']=model_fit.forecast(steps=futureDays)[0]
 combinedDF=df.append(futureDF, ignore_index = False)
 combinedDF.index.names = ['Date']
 currInfo=yf.Ticker(ticker).info
-combinedDF['Predict'].loc[-futureDays:]=(currInfo['bid']+currInfo['ask'])/2
+#X_new = np.array(futureDates).astype(float).reshape(-1, 1)
+#finalPredict = linear.predict(X_new)
+#print(finalPredict)
 print(combinedDF)
 #
 # Write to CSV
