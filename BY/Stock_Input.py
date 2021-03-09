@@ -2,13 +2,14 @@ import pandas as pd
 import numpy as np
 import requests
 import json
-import matplotlib.pyplot as plt
-from pandas_datareader.data import DataReader
-from pandas.tseries.holiday import USFederalHolidayCalendar
-from pandas.tseries.offsets import CustomBusinessDay 
 from datetime import datetime
 from pytrends.request import TrendReq
 import yfinance as yf
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import make_regression
+today = datetime.today()
+from pandas.tseries.holiday import USFederalHolidayCalendar
+from pandas.tseries.offsets import CustomBusinessDay
 
 import ML
 
