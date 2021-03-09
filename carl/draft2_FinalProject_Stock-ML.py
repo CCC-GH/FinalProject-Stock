@@ -196,6 +196,19 @@ infoDict={
     'MorningStar Rating: ':str(currInfo['morningStarOverallRating']),
     'Short Ratio: ': str(currInfo['shortRatio'])
     }                      
+with open(".\output\Current_Stock_Information.txt", "w") as f:
+    print('Current-Key Stock Information:',file=f)
+    print(f"  Company: {currInfo['longName']} ({currInfo['symbol']})",file=f)
+    print(f"  Current Ask/Bid (USD): {currInfo['ask']}/{currInfo['bid']}",file=f)
+    print(f"  Open Price: {round(currInfo['open'],2)}",file=f)
+    print(f"  High/Low Price: {currInfo['dayHigh']}/{currInfo['dayLow']}",file=f)
+    print(f"  Avg Volume: {currInfo['averageVolume']}",file=f)
+    print(f"  Volume: {currInfo['volume']}",file=f)
+    print(f"  52wk High: {round(currInfo['fiftyTwoWeekHigh'],2)}",file=f)
+    print(f"  52wk Low: {round(currInfo['fiftyTwoWeekLow'],2)}",file=f)
+    print(f"  MorningStar Rating: {currInfo['morningStarOverallRating']}",file=f)
+    print(f"  Short Ratio: {currInfo['shortRatio']}",file=f)
+f.close()
 print('\nCurrent-Key Stock Information:\n')
 print(f"Company: {currInfo['longName']} ({currInfo['symbol']})")
 print(f"Current Ask/Bid (USD): {currInfo['ask']}/{currInfo['bid']}")
