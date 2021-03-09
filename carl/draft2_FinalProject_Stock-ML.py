@@ -14,7 +14,7 @@ from statsmodels.tsa.arima_model import ARIMA
 from sklearn.metrics import mean_squared_error
 import pprint
 beginDate ='2020-01-01'
-endDate = datetime.datetime.now().date()     
+endDate = datetime.datetime.now().date()-datetime.timedelta(days=1)   
 #
 #df = pd.read_csv('XXXXXX.csv',index_col=0)
 # note: if using line above, loading from csv, comment out section below
