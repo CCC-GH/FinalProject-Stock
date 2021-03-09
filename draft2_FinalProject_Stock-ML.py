@@ -102,7 +102,7 @@ plt.plot(test_set_range, model_predictions, linestyle='dashed', label='Predicted
 plt.title(f'{ticker} Stock Price Prediction - ARIMA Model Perforance')
 plt.xlabel('Date')
 plt.ylabel('Close Price USD')
-plt.legend()
+plt.legend(loc='upper left')
 plt.show()
 # print summary of ARIMA fit model
 print(model_fit.summary())
