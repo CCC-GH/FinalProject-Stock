@@ -14,7 +14,7 @@ from statsmodels.tsa.arima_model import ARIMA
 from sklearn.metrics import mean_squared_error
 import pprint
 beginDate ='2020-01-01'
-endDate = datetime.datetime.now().date()     
+endDate = datetime.datetime.now().date()-datetime.timedelta(days=1)   
 #
 #df = pd.read_csv('XXXXXX.csv',index_col=0)
 # note: if using line above, loading from csv, comment out section below
@@ -55,6 +55,8 @@ plt.plot(hundred_rolling.index, hundred_rolling, label='100 days rolling')
 plt.xlabel('Date')
 plt.ylabel('Close Price USD')
 plt.legend()
+plt.savefig(f'.\output\{ticker}-MovingAvgs_{beginDate}_{endDate}')
+plt.savefig('.\output\MovingAvgs')
 plt.show()
 #
 # Setup number of days in training model; sample/shape(X,1)and Target(y) data
@@ -76,6 +78,8 @@ Xfuture = np.array(Xfuture)
 plt.figure(figsize=(10, 6))
 lag_plot(df['Close'], lag=3)
 plt.title(f'{ticker} Stock - Autocorrelation plot with lag=3')
+plt.savefig(f'.\output\{ticker}-Autocorrelation_{beginDate}_{endDate}')
+plt.savefig('.\output\Autocorrelation')
 plt.show()
 # Setup ARIMA training model
 train_data, test_data = df[0:int(len(df)*0.7)], df[int(len(df)*0.75):]
@@ -102,7 +106,9 @@ plt.plot(test_set_range, model_predictions, linestyle='dashed', label='Predicted
 plt.title(f'{ticker} Stock Price Prediction - ARIMA Model Perforance')
 plt.xlabel('Date')
 plt.ylabel('Close Price USD')
-plt.legend()
+plt.legend(loc='upper left')
+plt.savefig(f'.\output\{ticker}-ARIMA_{beginDate}_{endDate}')
+plt.savefig('.\output\ARIMA')
 plt.show()
 # print summary of ARIMA fit model
 print(model_fit.summary())
@@ -125,7 +131,10 @@ plt.ylabel('Close Price USD')
 plt.plot(modelData['Close'])
 plt.plot(valid[['Close', 'Target']])
 plt.legend(['Original', 'Actual', 'Predicted'])
+plt.savefig(f'.\output\{ticker}-LinearRegression_{beginDate}_{endDate}')
+plt.savefig('.\output\LinearRegression')
 plt.show()
+
 rSqLinear=linear.score(X,y)
 print('\ncoefficient of determination:', rSqLinear)
 print('intercept:', linear.intercept_)
@@ -148,6 +157,8 @@ plt.ylabel('Close Price USD')
 plt.plot(modelData['Close'])
 plt.plot(valid[['Close', 'Predict']])
 plt.legend(['Original', 'Actual', 'Predicted'])
+plt.savefig(f'.\output\{ticker}-DecisionTree_{beginDate}_{endDate}')
+plt.savefig('.\output\DecisionTree')
 plt.show()
 #
 # Create new DataFrame with future business days-closing price populated
