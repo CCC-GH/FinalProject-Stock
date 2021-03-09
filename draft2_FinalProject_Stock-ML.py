@@ -7,14 +7,16 @@ import yfinance as yf
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
-import datetime
+from datetime import datetime
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessDay
 from statsmodels.tsa.arima_model import ARIMA
 from sklearn.metrics import mean_squared_error
 import pprint
+from ML import *
+from Stock_Input_Copy import *
 beginDate ='2020-01-01'
-endDate = datetime.datetime.now().date()-datetime.timedelta(days=1)   
+endDate = datetime.now().date()-datetime.timedelta(days=1)   
 #
 #df = pd.read_csv('XXXXXX.csv',index_col=0)
 # note: if using line above, loading from csv, comment out section below

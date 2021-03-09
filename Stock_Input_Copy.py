@@ -18,7 +18,7 @@ from statsmodels.tsa.arima_model import ARIMA
 from sklearn.metrics import mean_squared_error
 from ML import *
 
-    #ticker = 'MSFT'
+ticker = 'MSFT'
 
 
 def stock_info(ticker):
@@ -27,9 +27,9 @@ def stock_info(ticker):
     
     today = datetime.today()
     beginDate ='2020-01-01'
-    endDate = datetime.datetime.now().date()
+    endDate = datetime.now().date()
     
-
+    
     
     script = "9ho5HG7o00PT-g"
     secret = "2CQTFbYyYp5aLEN7bHkKGO8X4E3YHQ"
@@ -73,81 +73,7 @@ def stock_info(ticker):
 
 
 
-    df = DataReader(ticker, 'yahoo', beginDate, endDate)
-    df['Close'] = df['Adj Close']
-    df = df.drop(columns=['Adj Close','High','Low','Open'], axis=1)
-    modelData = df['Close'].to_frame()
-    five_rolling = modelData.rolling(window=5).mean()
-    ten_rolling = modelData.rolling(window=10).mean()
-    twenty_rolling = modelData.rolling(window=20).mean()
-    fifty_rolling = modelData.rolling(window=50).mean()
-    hundred_rolling = modelData.rolling(window=100).mean()
 
-    futureDays = 10
-    modelData['Target'] = modelData['Close'].shift(-futureDays)
-    
-    X = np.array(modelData.drop(['Target'], 1))[:-futureDays]
-    y = np.array(modelData['Target'])[:-futureDays]
-
-    Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, test_size=0.25)
-    Xfuture = modelData.drop(['Target'], 1)[:-futureDays]
-    Xfuture = Xfuture.tail(futureDays)
-    Xfuture = np.array(Xfuture)
-    
-    train_data, test_data = df[0:int(len(df)*0.7)], df[int(len(df)*0.75):]
-    training_data = train_data['Close'].values
-    test_data = test_data['Close'].values
-    history = [x for x in training_data]
-    model_predictions = []
-    N_test_observations = len(test_data)
-    for time_point in range(N_test_observations):
-        model = ARIMA(history, order=(4,1,0))
-        model_fit = model.fit(disp=0)
-        output = model_fit.forecast()
-        yhat = output[0]
-        model_predictions.append(yhat)
-        true_test_value = test_data[time_point]
-        history.append(true_test_value)
-    MSE_error = mean_squared_error(test_data, model_predictions)
-    
-    linear = LinearRegression().fit(Xtrain, ytrain)
-    linearPrediction = linear.predict(Xfuture)
-    linearResult = linear.score(Xtrain, ytrain)
-    
-    valid = modelData[X.shape[0]:]
-    valid['Target'] = predictions
-    
-    tree = DecisionTreeRegressor().fit(Xtrain, ytrain)
-    treePrediction = tree.predict(Xfuture)
-    treeResult = tree.score(Xtrain, ytrain)
-    predictions = treePrediction
-    valid = modelData[X.shape[0]:]
-    valid['Predict'] = predictions
-    
-    todaysDate = datetime.datetime.now().date()
-    futureDays = 10
-    us_bd = CustomBusinessDay(calendar=USFederalHolidayCalendar())
-    futureDates = pd.date_range(todaysDate, periods = futureDays, freq=us_bd)
-    combinedDFcol =['Close','Predict','SM1','SM2','SM3','SM4'] 
-    futureDF=pd.DataFrame(index=futureDates, columns=combinedDFcol)
-    futureDF['Predict']=model_fit.forecast(steps=futureDays)[0]
-    combinedDF=df.append(futureDF, ignore_index = False)
-    combinedDF.index.names = ['Date']
-    currInfo=yf.Ticker(ticker).info
-    
-    currInfo=yf.Ticker(ticker).info
-    infoDict={
-        'longName: ':currInfo['symbol'],
-        'Current Ask/Bid: ': str(currInfo['ask'])+'/'+str(currInfo['bid']),
-        'Open Price: ': str(round(currInfo['open'],2)),
-        'High/Low Price: ': str(currInfo['dayHigh'])+'/'+str(currInfo['dayLow']),
-        'Avg Volume: ': str(currInfo['averageVolume']), 
-        'Volume: ': str(currInfo['volume']),
-        '52w High: ': str(round(currInfo['fiftyTwoWeekHigh'],2)),
-        '52w Low: ': str(round(currInfo['fiftyTwoWeekLow'],2)),
-        'MorningStar Rating: ':str(currInfo['morningStarOverallRating']),
-        'Short Ratio: ': str(currInfo['shortRatio'])
-        }    
         
     try:
         new_df = posts[posts[selected_cols].apply(lambda x: x.str.contains(ticker)).all(axis=1)]
@@ -279,17 +205,26 @@ def stock_info(ticker):
     xfits=df.append(SMPredict, ignore_index = False)
     xfits = xfits.drop(columns=['Ticker', 'isPartial', 'Noise'])
     xfits.index.name = "Date"
+    SMPredict.index.name = ['Date']
     
-    combinedDFcol =['Close','Predict','SM1','SM2','SM3','SM4'] 
-    futureDF=pd.DataFrame(index=futureDates, columns=combinedDFcol)
-    futureDF['Predict']=model_fit.forecast(steps=futureDays)[0]
-    combinedDF=df.append(futureDF, ignore_index = False)
-    combinedDF.index.name = ['Date']
+    SMDFcol =['Predict','SM1','SM2','SM3','SM4'] 
+    SMDFDF=pd.DataFrame(index=futureDates, columns=combinedDFcol)
+    SMDFDF['Predict']=model_fit.forecast(steps=futureDays)[0]
+    SMDFDF.index.name = ['Date']
     
-    today_dict = xfits.to_dict()
-    futureSM_prediction = SMPredict.to_dict()
-    carls_dict = combinedDF.to_dict()
+    SMDFDF = SMDFDF.merge(SMPredict, left_index=True, right_index=True, how="left")
+    SMDFDF = SMDFDF.merge(xfits, left_index=True, right_index=True, how="left")
+    combinedDF.to_csv(f'.\{ticker}-SMDFDF.csv')
+    
+    #today_dict = xfits.to_dict()
+    #futureSM_prediction = SMPredict.to_dict()
+    #carls_dict = combinedDF.to_dict()
+    
+    
 
-    return({today_dict, futureSM_prediction, carls_dict})
+    return({SMDFDF})
+
+
+#stock_info(ticker)
 
 
