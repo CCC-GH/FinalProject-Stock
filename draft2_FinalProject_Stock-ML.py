@@ -176,10 +176,16 @@ currInfo=yf.Ticker(ticker).info
 #finalPredict = linear.predict(X_new)
 #print(finalPredict)
 print(combinedDF)
-#
 # Write to CSV
 combinedDF.to_csv(f'.\output\{ticker}-CombinedDF_{beginDate}_{endDate}.csv')
 combinedDF.to_csv('.\output\combinedDF.csv')
+# Output future days to text file
+futureDF=futureDF.drop(columns=['Close','SM1','SM2','SM3','SM4'], axis=0)
+futureDF.index.names = ['Date']
+with open(".\output\Prediced_Stock_Price.txt", "w") as f:
+    print(futureDF, file=f)
+f.close()
+print(futureDF)
 # 
 # Stock Information (upper-right box), 
 currInfo=yf.Ticker(ticker).info
@@ -196,6 +202,7 @@ infoDict={
     'MorningStar Rating: ':str(currInfo['morningStarOverallRating']),
     'Short Ratio: ': str(currInfo['shortRatio'])
     }                      
+# Output current stock informaiton to text file
 with open(".\output\Current_Stock_Information.txt", "w") as f:
     print('Current-Key Stock Information:',file=f)
     print(f"  Company: {currInfo['longName']} ({currInfo['symbol']})",file=f)
