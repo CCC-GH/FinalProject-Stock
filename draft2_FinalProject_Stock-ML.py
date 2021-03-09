@@ -57,6 +57,7 @@ plt.ylabel('Close Price USD')
 plt.legend()
 plt.show()
 plt.savefig(f'.\output\{ticker}-MovingAvgs_{beginDate}_{endDate}')
+plt.savefig('.\output\MovingAvgs')
 #
 # Setup number of days in training model; sample/shape(X,1)and Target(y) data
 futureDays = 10
@@ -79,6 +80,7 @@ lag_plot(df['Close'], lag=3)
 plt.title(f'{ticker} Stock - Autocorrelation plot with lag=3')
 plt.show()
 plt.savefig(f'.\output\{ticker}-Autocorrelation_{beginDate}_{endDate}')
+plt.savefig('.\output\Autocorrelation')
 # Setup ARIMA training model
 train_data, test_data = df[0:int(len(df)*0.7)], df[int(len(df)*0.75):]
 training_data = train_data['Close'].values
@@ -107,6 +109,7 @@ plt.ylabel('Close Price USD')
 plt.legend(loc='upper left')
 plt.show()
 plt.savefig(f'.\output\{ticker}-ARIMA_{beginDate}_{endDate}')
+plt.savefig('.\output\ARIMA')
 # print summary of ARIMA fit model
 print(model_fit.summary())
 #
@@ -130,6 +133,7 @@ plt.plot(valid[['Close', 'Target']])
 plt.legend(['Original', 'Actual', 'Predicted'])
 plt.show()
 plt.savefig(f'.\output\{ticker}-LinearRegression_{beginDate}_{endDate}')
+plt.savefig('.\output\LinearRegression')
 
 rSqLinear=linear.score(X,y)
 print('\ncoefficient of determination:', rSqLinear)
@@ -155,6 +159,7 @@ plt.plot(valid[['Close', 'Predict']])
 plt.legend(['Original', 'Actual', 'Predicted'])
 plt.show()
 plt.savefig(f'.\output\{ticker}-DecisionTree_{beginDate}_{endDate}')
+plt.savefig('.\output\DecisionTree')
 #
 # Create new DataFrame with future business days-closing price populated
 todaysDate = datetime.datetime.now().date()
