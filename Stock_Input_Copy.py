@@ -227,4 +227,5 @@ def stock_info(ticker):
 
 #stock_info(ticker)
 
+SMDFDF
 
