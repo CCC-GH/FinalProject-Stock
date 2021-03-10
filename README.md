@@ -10,6 +10,6 @@ In this final project our group will attempt to predict future stock prices sour
 - FinalProject_Reddit.jpynb - Reddit noise influencing stock price
 - index.html (GitHub Hosted)
 
-### [Project Charts (PDF](README_Images/NU-FinalProject_Stocks.pdf)
+### [Project Charts (PDF, no-scroll)](README_Images/NU-FinalProject_Stocks.pdf)
 
 ![](README_Images/NU-FinalProject_Stocks.gif)
