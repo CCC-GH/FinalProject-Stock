@@ -7,3 +7,5 @@ In this final project our group will attempt to predict future stock prices sour
 ![Project Charts](https://github.com/CCC-GH/FinalProject-Stock/tree/main/README_Images/NU-FinalProject_Stocks.pdf)
 
 ![Project Charts](https://github.com/CCC-GH/FinalProject-Stock/tree/main/README_Images/NU-FinalProject_Stocks.gif)
+
+![Project Charts](https://github.com/CCC-GH/FinalProject-Stock/tree/main/README_Images/NU-FinalProject_Stocks/Slide0.JPG)
