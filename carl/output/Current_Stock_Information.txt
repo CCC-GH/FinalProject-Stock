@@ -1,6 +1,6 @@
 Current-Key Stock Information:
   Company: Microsoft Corporation (MSFT)
-  Current Ask/Bid (USD): 233.6/233.3
+  Current Ask/Bid (USD): 233.9/233.3
   Open Price: 232.88
   High/Low Price: 235.3839/231.67
   Avg Volume: 29753578
