@@ -155,6 +155,6 @@ def stock_info(ticker):
 
     xfits = live_group[live_group.date > datetime.datetime.now() - pd.to_timedelta("3day")]
 
-    return({})
+    return({xfits})
 
 
