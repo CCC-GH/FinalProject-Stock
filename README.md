@@ -4,5 +4,5 @@ In this final project our group will attempt to predict future stock prices sour
 ### Website
 [GitHub Hosted Page](https://ccc-gh.github.io/FinalProject-Stock/)
 
-![Project Charts](README_Images/NU-FinalProject_Stocks.pdf)
+![Project Charts](README_Images/NU-FinalProject_Stocks.pdf!)
 
