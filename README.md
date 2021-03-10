@@ -6,4 +6,4 @@ In this final project our group will attempt to predict future stock prices sour
 
 [Project Charts](README_Images/NU-FinalProject_Stocks.pdf)
 
-[Project Charts](README_Images/NU-FinalProject_Stocks.gif)
+![](README_Images/NU-FinalProject_Stocks.gif)
