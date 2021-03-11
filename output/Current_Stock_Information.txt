@@ -1,12 +1,11 @@
-
 Current-Key Stock Information:
   Company: Microsoft Corporation (MSFT)
-  Current Ask/Bid (USD): 234.76/234.74
-  Open Price: 232.88
-  High/Low Price: 235.11/231.67
-  Avg Volume: 29753578
-  Volume: 19232881
+  Current Ask/Bid (USD): 232.72/232.2
+  Open Price: 237
+  High/Low Price: 236.99/232.04
+  Avg Volume: 29814827
+  Volume: 29746812
   52wk High: 246.13
   52wk Low: 132.52
   MorningStar Rating: None
-  Short Ratio: 1.32
+  Short Ratio: 1.3599999999999999

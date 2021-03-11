@@ -7,14 +7,25 @@ import yfinance as yf
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeRegressor
+<<<<<<< HEAD
+from datetime import datetime
+=======
 import datetime
+>>>>>>> dfd5e871f2a7b41d5be816318b948768481b2f2c
 from pandas.tseries.holiday import USFederalHolidayCalendar
 from pandas.tseries.offsets import CustomBusinessDay
 from statsmodels.tsa.arima_model import ARIMA
 from sklearn.metrics import mean_squared_error
 import pprint
+<<<<<<< HEAD
+from ML import *
+from Stock_Input_Copy import *
+beginDate ='2020-01-01'
+endDate = datetime.now().date()-datetime.timedelta(days=1)   
+=======
 beginDate ='2020-01-01'
 endDate = datetime.datetime.now().date()-datetime.timedelta(days=1)   
+>>>>>>> dfd5e871f2a7b41d5be816318b948768481b2f2c
 #
 #df = pd.read_csv('XXXXXX.csv',index_col=0)
 # note: if using line above, loading from csv, comment out section below
@@ -82,7 +93,7 @@ plt.savefig(f'.\output\{ticker}-Autocorrelation_{beginDate}_{endDate}')
 plt.savefig('.\output\Autocorrelation')
 plt.show()
 # Setup ARIMA training model
-train_data, test_data = df[0:int(len(df)*0.75)], df[int(len(df)*0.75):]
+train_data, test_data = df[0:int(len(df)*0.7)], df[int(len(df)*0.75):]
 training_data = train_data['Close'].values
 test_data = test_data['Close'].values
 history = [x for x in training_data]
@@ -189,7 +200,6 @@ print(futureDF)
 # 
 # Stock Information (upper-right box), 
 currInfo=yf.Ticker(ticker).info
-print('\nAll Current Stock Information:\n')
 pprint.pprint(currInfo)
 infoDict={
     'longName: ':currInfo['symbol'],
