@@ -6,8 +6,7 @@ In this final project our group will attempt to predict future stock prices sour
 
 #### Python Scripts/HTML:
 - FinalProject_Stock-ML.py - Stock input with stock price predicted output/charts/tables (ARIMA, LinearRegression)
-- FinalProject_Noise.jpynb - Social Media noise influencing stock price
-- FinalProject_Reddit.jpynb - Reddit noise influencing stock price
+- Grab_Social_Scores.ipynb - Social Media/Reddit noise influencing stock price
 - index.html (GitHub Hosted)
 
 ### [Project Charts (PDF, no-scroll)](README_Images/NU-FinalProject_Stocks.pdf)
